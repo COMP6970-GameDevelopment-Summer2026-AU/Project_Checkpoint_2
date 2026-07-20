@@ -1,0 +1,43 @@
+# Normalize text line endings so the project is clean across Windows/Mac/Linux.
+* text=auto
+
+# Unity text-ish assets: treat as text but keep merge sane.
+*.cs             text diff=csharp
+*.shader         text
+*.cginc          text
+*.md             text
+*.json           text
+*.txt            text
+
+# Unity YAML asset files — force LF, mark for UnityYAMLMerge.
+*.meta           -text merge=unityyamlmerge eol=lf
+*.unity          -text merge=unityyamlmerge eol=lf
+*.asset          -text merge=unityyamlmerge eol=lf
+*.prefab         -text merge=unityyamlmerge eol=lf
+*.mat            -text merge=unityyamlmerge eol=lf
+*.controller     -text merge=unityyamlmerge eol=lf
+*.anim           -text merge=unityyamlmerge eol=lf
+*.physicMaterial -text merge=unityyamlmerge eol=lf
+
+# Binary assets — never touch line endings or try to diff.
+*.fbx            binary
+*.png            binary
+*.jpg            binary
+*.jpeg           binary
+*.ogg            binary
+*.wav            binary
+*.mp3            binary
+*.tga            binary
+*.psd            binary
+*.dll            binary
+*.ttf            binary
+*.otf            binary
+*.renderTexture  binary
+*.cubemap        binary
+
+# ---- Optional: Git LFS (NOT enabled by default) ----
+# This project's binaries are small, so plain git works and anyone can clone
+# without extra tools. If your repo grows large, install Git LFS and uncomment:
+# *.fbx  filter=lfs diff=lfs merge=lfs -text
+# *.png  filter=lfs diff=lfs merge=lfs -text
+# *.ogg  filter=lfs diff=lfs merge=lfs -text
