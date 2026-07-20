@@ -500,27 +500,33 @@ public static class GraveyardWorldBuilder
         gm.soulText    = Text("Souls",   C, new Vector2(0,1), new Vector2(30,-174), new Vector2(340,44), 30, TextAlignmentOptions.Left, new Color(0.5f,1f,0.7f));
         gm.banishText  = Text("Spirits", C, new Vector2(0,1), new Vector2(30,-222), new Vector2(360,40), 26, TextAlignmentOptions.Left, new Color(0.7f,0.85f,1f));
 
-        // Health bar (bottom-left).
+        // Health bar (top-center, prominent). Driven by width (no sprite needed).
+        const float BAR_W = 460f, BAR_H = 30f, PAD = 4f;
+
         var hpBg = new GameObject("HealthBG").AddComponent<Image>();
         hpBg.transform.SetParent(C, false);
-        hpBg.color = new Color(0f,0f,0f,0.6f);
+        hpBg.color = new Color(0.04f, 0.05f, 0.06f, 0.85f);
         var hbg = hpBg.rectTransform;
-        hbg.anchorMin = hbg.anchorMax = hbg.pivot = new Vector2(0,0);
-        hbg.anchoredPosition = new Vector2(30,30);
-        hbg.sizeDelta = new Vector2(360,34);
+        hbg.anchorMin = hbg.anchorMax = hbg.pivot = new Vector2(0.5f, 1f);
+        hbg.anchoredPosition = new Vector2(0, -104);
+        hbg.sizeDelta = new Vector2(BAR_W, BAR_H);
+        var hpOutline = hpBg.gameObject.AddComponent<Outline>();
+        hpOutline.effectColor = new Color(0.5f, 0.75f, 0.55f, 0.9f);
+        hpOutline.effectDistance = new Vector2(2f, -2f);
 
         var hpFill = new GameObject("HealthFill").AddComponent<Image>();
         hpFill.transform.SetParent(hpBg.transform, false);
-        hpFill.color = new Color(0.85f,0.2f,0.2f,1f);
-        hpFill.type = Image.Type.Filled;
-        hpFill.fillMethod = Image.FillMethod.Horizontal;
-        hpFill.fillAmount = 1f;
+        hpFill.color = new Color(0.35f, 0.85f, 0.35f, 1f);
         var hf = hpFill.rectTransform;
-        hf.anchorMin = Vector2.zero; hf.anchorMax = Vector2.one;
-        hf.offsetMin = new Vector2(3,3); hf.offsetMax = new Vector2(-3,-3);
-        var hpLabel = Text("HP", hpBg.transform, new Vector2(0.5f,0.5f), Vector2.zero, new Vector2(360,30), 20, TextAlignmentOptions.Center, Color.white);
+        hf.anchorMin = hf.anchorMax = new Vector2(0f, 0.5f);
+        hf.pivot = new Vector2(0f, 0.5f);
+        hf.anchoredPosition = new Vector2(PAD, 0f);
+        hf.sizeDelta = new Vector2(BAR_W - PAD * 2f, BAR_H - PAD * 2f);
+
+        var hpLabel = Text("HP", hpBg.transform, new Vector2(0.5f,0.5f), Vector2.zero, new Vector2(BAR_W,BAR_H), 17, TextAlignmentOptions.Center, Color.white);
         hpLabel.rectTransform.anchorMin = hpLabel.rectTransform.anchorMax = new Vector2(0.5f,0.5f);
-        hpLabel.text = "Health";
+        hpLabel.fontStyle = FontStyles.Bold;
+        hpLabel.text = "HEALTH";
 
         // Full-screen hurt flash (starts transparent).
         var flash = new GameObject("HurtFlash").AddComponent<Image>();

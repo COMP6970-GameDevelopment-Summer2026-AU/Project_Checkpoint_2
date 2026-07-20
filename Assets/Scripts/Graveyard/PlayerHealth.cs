@@ -13,10 +13,13 @@ public class PlayerHealth : MonoBehaviour
     [Header("UI (assigned by the builder)")]
     public Image healthFill;
     public Image hurtFlash;
+    public Color fullColor = new Color(0.35f, 0.85f, 0.35f);
+    public Color lowColor = new Color(0.90f, 0.20f, 0.20f);
 
     float health;
     float invuln;
     bool dead;
+    float fullWidth = -1f;
     KeeperAnimator anim;
 
     public float Health01 => Mathf.Clamp01(health / maxHealth);
@@ -27,7 +30,11 @@ public class PlayerHealth : MonoBehaviour
         anim = GetComponent<KeeperAnimator>();
     }
 
-    void Start() { UpdateBar(); }
+    void Start()
+    {
+        if (healthFill != null) fullWidth = healthFill.rectTransform.sizeDelta.x;
+        UpdateBar();
+    }
 
     void Update()
     {
@@ -81,6 +88,11 @@ public class PlayerHealth : MonoBehaviour
 
     void UpdateBar()
     {
-        if (healthFill != null) healthFill.fillAmount = Health01;
+        if (healthFill == null) return;
+        var rt = healthFill.rectTransform;
+        if (fullWidth < 0f) fullWidth = rt.sizeDelta.x;   // capture if not set yet
+        float h01 = Health01;
+        rt.sizeDelta = new Vector2(fullWidth * h01, rt.sizeDelta.y);
+        healthFill.color = Color.Lerp(lowColor, fullColor, h01);
     }
 }
