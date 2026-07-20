@@ -102,6 +102,16 @@ public static class GKInput
 #endif
     }
 
+    public static bool DebugTogglePressed()
+    {
+#if ENABLE_INPUT_SYSTEM
+        var k = Keyboard.current;
+        return k != null && k.f3Key.wasPressedThisFrame;
+#else
+        return Input.GetKeyDown(KeyCode.F3);
+#endif
+    }
+
     public static int NumberKeyPressed()
     {
 #if ENABLE_INPUT_SYSTEM

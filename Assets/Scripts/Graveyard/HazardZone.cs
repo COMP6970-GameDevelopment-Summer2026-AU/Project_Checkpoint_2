@@ -1,18 +1,23 @@
-// HazardZone.cs — a patch of cursed ground. It warns the player as they approach
-// (via HazardWarning), turns its glow redder the closer they get, and drains
-// health while they stand inside it.
+// HazardZone.cs — a patch of cursed ground. Warns the player as they approach
+// (via HazardWarning), shifts its glow green->red, and drains health while inside.
+// Tracks a static ActiveCount and reports distance for the debug panel.
 
 using UnityEngine;
 
 public class HazardZone : MonoBehaviour
 {
+    public static int ActiveCount;
+
     public float radius = 3f;
     public float damagePerSecond = 8f;
-    public float warnRadius = 6.5f;   // player is warned within this range
+    public float warnRadius = 6.5f;
 
     Light glow;
     Transform player;
     float seed;
+
+    void OnEnable() { ActiveCount++; }
+    void OnDisable() { ActiveCount--; }
 
     void Awake()
     {
@@ -29,6 +34,8 @@ public class HazardZone : MonoBehaviour
         glow.range = radius * 2.5f;
         glow.intensity = 1.6f;
         seed = Random.value * 100f;
+
+        Debug.Log($"[HazardZone] spawned at {transform.position} (active now: {ActiveCount + 1})");
     }
 
     void Update()
@@ -47,12 +54,14 @@ public class HazardZone : MonoBehaviour
             if (p != null) player = p.transform;
         }
 
-        float t = 1f;   // 0 = far, 1 = inside
+        float t = 0f;
         if (player != null)
         {
             Vector3 a = transform.position; a.y = 0f;
             Vector3 b = player.position; b.y = 0f;
             float d = Vector3.Distance(a, b);
+
+            HazardWarning.ReportDistance(d);
 
             if (d < warnRadius)
             {
@@ -62,7 +71,6 @@ public class HazardZone : MonoBehaviour
             }
         }
 
-        // Glow shifts green -> red as the player closes in.
         if (glow != null)
         {
             glow.color = Color.Lerp(new Color(0.4f, 1f, 0.4f), new Color(1f, 0.25f, 0.2f), t);
