@@ -6,10 +6,11 @@
 **Modules covered:** M6–M7 (world, player, harvesting) + **M8–M9** (challenge, enemies, game loop, polish)
 
 ## 🎬 Gameplay Demo
+[![Graveyard Keeper — Checkpoint 2 demo](https://img.youtube.com/vi/ctV2FDVsJFU/maxresdefault.jpg)](https://youtu.be/ctV2FDVsJFU)
 
-[![Graveyard Keeper — gameplay demo](https://img.youtube.com/vi/i2hTi3xACW0/maxresdefault.jpg)](https://youtu.be/i2hTi3xACW0)
+[![Graveyard Keeper — Checkpoint 1 demo](https://img.youtube.com/vi/i2hTi3xACW0/maxresdefault.jpg)](https://youtu.be/i2hTi3xACW0)
 
-▶️ **Watch the demo:** https://youtu.be/i2hTi3xACW0
+▶️ **Watch the demo:** https://youtu.be/ctV2FDVsJFU
 
 > Work the night shift in a cursed, endless graveyard: harvest what you need,
 > banish the spirits that hunt you, choose your weapon, and reach the escape gate
